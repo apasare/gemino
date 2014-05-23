@@ -22,5 +22,5 @@
 
 # Custom
 bin/
-obj/
-lib/
+^obj/
+^lib/
