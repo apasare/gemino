@@ -1,0 +1,2 @@
+#!/bin/sh
+spawn-fcgi bin/fcgi -s tmp/proc/socket -P tmp/proc/pid -U www-data -u www-data -F 1

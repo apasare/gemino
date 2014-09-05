@@ -5,7 +5,7 @@
 #include <sys/wait.h>
 #include <vector>
 
-#include "lib/Gemino/Socket.h"
+#include "lib/Gemino/Core/Http.h"
 
 #define MAX_NUM_PROC 50
 

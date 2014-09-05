@@ -1,0 +1,7 @@
+#!/bin/bash
+read -a PIDS <<< `cat tmp/proc/pid`
+for pid in "${PIDS[@]}"
+do
+    echo "Stoping process with PID: $pid"
+    kill -9 $pid
+done

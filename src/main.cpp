@@ -1,13 +1,28 @@
 #include "main.h"
 
-using Gemino::Socket;
+using Gemino::Core::Socket;
+using Gemino::Core::Http;
 using std::vector;
 
-void processClient(Socket *Client) {
-    char* request = Client->Read(10);
-    printf("%s\n", request);
+typedef struct {
+    unsigned char version;
+    unsigned char type;
+    unsigned char requestIdB1;
+    unsigned char requestIdB0;
+    unsigned char contentLength;
+    unsigned char contentLengthB1;
+    unsigned char contentLengthB0;
+    unsigned char paddingLength;
+    unsigned char reserved;
+    unsigned char contentData[65535];
+    unsigned char paddingData[255];
+} FCGI_Record;
 
-    Client->Write("Lorem ipsum dolor sit amet");
+void processClient(Socket *&Client) {
+    FCGI_Record *data = (FCGI_Record*)Client->Read(1000);
+    printf("%d\n", data->type);
+
+    Client->Write("CGI/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8\r\n\r\n");
 }
 
 void clearZombies(std::vector<pid_t> &pids) {
@@ -26,12 +41,9 @@ void clearZombies(std::vector<pid_t> &pids) {
 
 int main(void) {
     try {
-        Socket *Server = new Socket(AF_INET, SOCK_STREAM, 0);
+        Http *Server = new Http();
 
         Socket *Client;
-
-        Server->Bind(5005);
-        Server->Listen();
 
         vector<pid_t> pids;
         pid_t pid, wpid;
