@@ -1,10 +1,10 @@
-#include <iostream>
-#include "fcgio.h"
+#include "fcgi.h"
 
 using std::cin;
 using std::cout;
 using std::cerr;
 using std::streambuf;
+using Gemino::Core::App;
 
 int main(void) {
     // Backup the stdio streambufs
@@ -12,9 +12,9 @@ int main(void) {
     streambuf * cout_streambuf = cout.rdbuf();
     streambuf * cerr_streambuf = cerr.rdbuf();
 
-    int count = 0;
     FCGX_Request request;
 
+    App::Init();
     FCGX_Init();
     FCGX_InitRequest(&request, 0, 0);
 
@@ -27,17 +27,7 @@ int main(void) {
         cout.rdbuf(&cout_fcgi_streambuf);
         cerr.rdbuf(&cerr_fcgi_streambuf);
 
-        cout << "Content-Type: text/html\r\n"
-             << "\r\n"
-             << "<html>\n"
-             << "  <head>\n"
-             << "    <title>Hello, World!</title>\n"
-             << "  </head>\n"
-             << "  <body>\n"
-             << "    <h1>Hello, World!</h1>\n"
-             << "<b>" << count++ << "</b>"
-             << "  </body>\n"
-             << "</html>\n";
+        App::Process(request);
     }
 
     // restore stdio streambufs

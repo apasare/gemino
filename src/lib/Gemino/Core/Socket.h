@@ -12,41 +12,43 @@
 #include <stdlib.h>
 
 namespace Gemino {
-    namespace Core {
-        class Socket {
-            protected:
-                int _socket;
-                sockaddr_in _socket_info;
-            public:
-                static const int BACKLOG;
-                static const int READ_BUFFER_LENGTH;
+namespace Core {
 
-                Socket(int socket, sockaddr_in socket_info);
-                Socket(int domain, int type, int protocol);
-                ~Socket();
+class Socket {
+protected:
+    int _socket;
+    sockaddr_in _socket_info;
+public:
+    static const int BACKLOG;
+    static const int READ_BUFFER_LENGTH;
 
-                void Bind(unsigned short int port);
-                void Bind(unsigned short int port, unsigned long int address);
-                void Bind(unsigned short int port, char *address);
-                void Bind(unsigned short int port, const char *address);
-                void Bind(short int family, unsigned short int port, unsigned long int address);
-                void Bind(short int family, unsigned short int port, char *address);
-                void Bind(short int family, unsigned short int port, const char *address);
+    Socket(int socket, sockaddr_in socket_info);
+    Socket(int domain, int type, int protocol);
+    ~Socket();
 
-                void Listen();
-                void Listen(int backlog);
+    void Bind(unsigned short int port);
+    void Bind(unsigned short int port, unsigned long int address);
+    void Bind(unsigned short int port, char *address);
+    void Bind(unsigned short int port, const char *address);
+    void Bind(short int family, unsigned short int port, unsigned long int address);
+    void Bind(short int family, unsigned short int port, char *address);
+    void Bind(short int family, unsigned short int port, const char *address);
 
-                Socket* Accept();
+    void Listen();
+    void Listen(int backlog);
 
-                void Close();
+    Socket* Accept();
 
-                void* Read();
-                void* Read(int length);
+    void Close();
 
-                void Write(char *message);
-                void Write(const char *message);
-        };
-    }
-}
+    void* Read();
+    void* Read(int length);
+
+    void Write(char *message);
+    void Write(const char *message);
+};
+
+} // end namespace Core
+} // end namespace Gemino
 
 #endif // GEMINO_GEMINO_SOCKET_H_
